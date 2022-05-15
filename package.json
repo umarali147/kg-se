@@ -19,7 +19,8 @@
   "homepage": "https://github.com/umarali147/kg-se#readme",
   "dependencies": {
     "axios": "^0.27.2",
-    "express": "^4.18.1"
+    "express": "^4.18.1",
+    "sparql-http-client": "^2.4.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.16"
