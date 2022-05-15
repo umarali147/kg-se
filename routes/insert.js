@@ -84,7 +84,23 @@ const router = express.Router();
 router.post("/", (req, res) => {
   const wifi = req.body;
   const names = Object.keys(wifi);
-  console.log(names);
+
+  for (let index = 0; index < names.length; index++) {
+    const name = wifi[names[index]].name;
+
+    const url = wifi[names[index]].url;
+    const location = wifi[names[index]].location;
+    const email = wifi[names[index]].contact.email;
+    let focusArr = wifi[names[index]].state.focus;
+    let focus = "";
+    if (focusArr.includes("Public Free Wifi")) {
+      focus = "Public Free Wifi";
+    } else {
+      focus = focusArr[0];
+    }
+    const lastChange = wifi[names[index]].state.lastchange;
+    console.log(email);
+  }
 });
 
 module.exports = router;
