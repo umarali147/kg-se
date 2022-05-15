@@ -1,0 +1,3 @@
+_:b0 <http://myprefix.org/hasName> "Hello World" .
+_:b0 <http://myprefix.org/says> "It worked!" .
+_:b0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://myprefix.org/TestMapping> .
