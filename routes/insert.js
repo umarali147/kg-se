@@ -11,6 +11,7 @@ const client = new SparqlClient({ endpointUrl, updateUrl });
 
 router.post("/", async (req, res) => {
   const names = Object.keys(wifiData);
+  console.log(names.length);
   let name,
     description,
     address,
@@ -37,6 +38,7 @@ router.post("/", async (req, res) => {
     annotations.push({
       "@context": { "@vocab": "http://schema.org/" },
       "@type": "Place",
+      "@id": getID(index, name),
       name,
       description,
       address,
@@ -49,8 +51,8 @@ router.post("/", async (req, res) => {
       lastChange,
     });
   }
-  console.log({ annotations });
-  await save(endpointUrl, annotations);
+  // console.log({ annotations });
+  // await save(endpointUrl, annotations);
   res.json(annotations);
 });
 
@@ -76,6 +78,12 @@ async function save(endpointUrl, annotations) {
       }
     );
   });
+}
+function getID(index, name) {
+  console.log(name);
+  let date = Date.now();
+  name = name.replace(/ /g, "_");
+  return `http://wifi.com/${date}${index}/${name}/`;
 }
 function getAddress(location) {
   if (!location) return;

@@ -3,5 +3,13 @@
     "availability": 0.3,
     "contNego": 0.3,
     "structured": 0.4
+  },
+  "correctness": {
+    "syntactic": 0.5,
+    "semantic": 0.5
+  },
+  "completeness": {
+    "domain": 0.5,
+    "property": 0.5
   }
 }

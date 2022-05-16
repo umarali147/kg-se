@@ -9,7 +9,7 @@ router.use((req, res, next) => {
 });
 const calculatedScore = {
   availability: 1,
-  structured: 1,
+  structured: 0.5,
   contNego: 1,
 };
 const score = JSON.parse(JSON.stringify(calculatedScore));
@@ -17,10 +17,8 @@ router.get("/", (req, res) => {
   score.availability = calculatedScore.availability * weights.availability;
   score.structured = calculatedScore.structured * weights.structured;
   score.contNego = calculatedScore.contNego * weights.contNego;
-  // console.log(score.length);
-  console.log(helper(score));
 
-  // res.json(forObject.entries(score));
+  res.json(helper.score(score));
 });
 
 module.exports = router;

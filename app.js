@@ -1,9 +1,9 @@
 const express = require("express");
 const app = express();
-const axios = require("axios");
+const helper = require("./helper");
 
 app.use(express.json());
-
+app.use(express.static("./frontend"));
 // routes
 const accessibility = require("./routes/accessibility");
 const correctness = require("./routes/correctness");
