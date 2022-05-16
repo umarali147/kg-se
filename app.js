@@ -11,6 +11,7 @@ const completeness = require("./routes/completeness");
 const insert = require("./routes/insert");
 
 app.get("/", (req, res) => {
+  res.json(data);
   res.send("complete result");
 });
 
