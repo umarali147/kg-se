@@ -1,62 +1,60 @@
 const SparqlClient = require("sparql-http-client");
 const express = require("express");
 const router = express.Router();
-const data = require("../data.json");
+const wifiData = require("../data.json");
 const request = require("request");
-const axios = require("axios");
 
-const endpointUrl = "http://localhost:7200/repositories/wifi-poi/statements";
+const endpointUrl = "http://localhost:7200/repositories/wifipois/statements";
 const updateUrl = endpointUrl;
 
 const client = new SparqlClient({ endpointUrl, updateUrl });
+
 router.post("/", async (req, res) => {
-  const wifi = req.body;
-  const names = Object.keys(wifi);
+  const names = Object.keys(wifiData);
   let name,
-    url,
+    description,
     address,
     geo,
+    image,
+    url,
     isAccessibleForFree,
     publicAccess,
-    email,
-    focus,
-    location;
+    telephone,
+    lastChange;
+  let annotations = [];
   for (let index = 0; index < names.length; index++) {
-    name = wifi[names[index]].name;
-    url = wifi[names[index]].url;
-    // location = wifi[names[index]].location;
-    location.city = "isloo";
-    location.postal_code = "6020";
-    email = wifi[names[index]].contact.email;
-    let focusArr = wifi[names[index]].state.focus;
-
-    isAccessibleForFree =
-      focusArr.includes("Public Free Wifi") ||
-      focusArr.includes("Free internet access");
+    const wifi = wifiData[names[index]];
+    name = wifi.name;
+    description = wifi.description || "";
+    address = getAddress(wifi.location);
+    geo = getGeoCoords(wifi.location);
+    image = wifi.image || "";
+    url = wifi.url || "";
+    telephone = wifi?.contact?.phone || wifi?.phone || "";
+    isAccessibleForFree = isAccessibleForFreeFunc(wifi?.state?.focus);
     publicAccess = isAccessibleForFree;
-    const lastChange = wifi[names[index]].state.lastchange;
+    lastChange = wifi.state.lastchange || "";
+    annotations.push({
+      "@context": { "@vocab": "http://schema.org/" },
+      "@type": "Place",
+      name,
+      description,
+      address,
+      geo,
+      image,
+      url,
+      telephone,
+      isAccessibleForFree,
+      publicAccess,
+      lastChange,
+    });
   }
-
-  let annotation;
-  // insertCookieQuery = `PREFIX schema: <https://www.schema.org/>
-  //       INSERT DATA {
-  //             <https://www.schema.org/${name}> a <http://www.semanticweb.org/OntoCookie#Wifi>;
-  //              schema:url "${url}";
-  //              schema:name "${name}";
-  //              schema:address "${location}";
-  //              schema:focus "${focus}";
-  //              schema:email "${email}".
-  //             }
-  //       `;
-
-  annotation = await save(endpointUrl, insertCookieQuery);
-
-  // insertDataInKnowledgeGraph(insertCookieQuery);
-
-  res.json("Data has been inserted successfully");
+  console.log({ annotations });
+  await save(endpointUrl, annotations);
+  res.json(annotations);
 });
 
-async function save(endpointUrl, insertCookieQuery) {
+async function save(endpointUrl, annotations) {
   return new Promise(function (resolve, reject) {
     request(
       {
@@ -66,22 +64,46 @@ async function save(endpointUrl, insertCookieQuery) {
           "Content-Type": "application/ld+json",
         },
         method: "POST",
-        body: insertCookieQuery,
+        body: annotations,
+        json: true,
       },
       (err, res) => {
         if (err) {
-          console.log("======> ", err);
           reject(err);
         } else {
-          console.log("done with saving");
           resolve(res);
         }
       }
     );
   });
 }
-async function insertDataInKnowledgeGraph(insertCookieQuery) {
-  const stream = await client.query.update(insertCookieQuery);
+function getAddress(location) {
+  if (!location) return;
+  let address = location.address || location;
+  const addressObj = {
+    "@type": "PostalAddress",
+    streetAddress: address?.Street || address?.street || "",
+    addressLocality: address?.city || address?.City || location?.city || "",
+    postalCode: address?.zip || address?.zipcode || address?.Zipcode || "",
+    addressCountry: location?.country || location?.address?.country || "",
+  };
+  return addressObj;
 }
-
+function getGeoCoords(location) {
+  if (!location) return;
+  const geoCoords = {
+    "@type": "GeoCoordinates",
+    latitude: location.lat,
+    longitude: location.lon,
+  };
+  return geoCoords;
+}
+function isAccessibleForFreeFunc(arr) {
+  if (!arr) return;
+  return (
+    arr.includes("Public Free Wifi") ||
+    arr.includes("Free internet access") ||
+    false
+  );
+}
 module.exports = router;
