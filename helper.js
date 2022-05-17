@@ -39,4 +39,17 @@ const getPoiDS = async () => {
   return poiDS.data;
 };
 
-module.exports = { score, sparql, getPoiDS };
+const getRandomEntities = (limit) => {
+  const query = `PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+  PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+  PREFIX schema: <http://schema.org/>
+  SELECT ?entity ?type
+  WHERE {
+    ?entity rdf:type schema:Place.
+  }
+  ORDER BY RAND() LIMIT ${limit}`;
+
+  return sparql(query);
+};
+
+module.exports = { score, sparql, getPoiDS, getRandomEntities };

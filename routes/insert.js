@@ -16,7 +16,6 @@ router.post("/", async (req, res) => {
     description,
     address,
     geo,
-    image,
     url,
     isAccessibleForFree,
     publicAccess,
@@ -35,6 +34,7 @@ router.post("/", async (req, res) => {
     isAccessibleForFree = isAccessibleForFreeFunc(wifi?.state?.focus);
     publicAccess = isAccessibleForFree;
     lastChange = wifi.state.lastchange || "";
+    techDetails = getTechDetails(wifi.techDetails);
     annotations.push({
       "@context": { "@vocab": "http://schema.org/" },
       "@type": "Place",
@@ -43,16 +43,17 @@ router.post("/", async (req, res) => {
       description,
       address,
       geo,
-      image,
       url,
       telephone,
       isAccessibleForFree,
       publicAccess,
       lastChange,
+      techDetails,
+      lastChange,
     });
   }
   // console.log({ annotations });
-  // await save(endpointUrl, annotations);
+  await save(endpointUrl, annotations);
   res.json(annotations);
 });
 
@@ -83,7 +84,7 @@ function getID(index, name) {
   console.log(name);
   let date = Date.now();
   name = name.replace(/ /g, "_");
-  return `http://wifi.com/${date}${index}/${name}/`;
+  return `http://example.com/${date}${index}/${name}/`;
 }
 function getAddress(location) {
   if (!location) return;
@@ -106,6 +107,20 @@ function getGeoCoords(location) {
   };
   return geoCoords;
 }
+const getTechDetails = (techDetails) => {
+  if (!techDetails) return;
+  const techDetailsArray = [
+    {
+      "@type": "PropertyValue",
+      name: techDetails?.firmware?.name || techDetails?.name,
+    },
+    {
+      "@type": "PropertyValue",
+      url: techDetails?.firmware?.url || techDetails?.url,
+    },
+  ];
+  return techDetailsArray;
+};
 function isAccessibleForFreeFunc(arr) {
   if (!arr) return;
   return (
