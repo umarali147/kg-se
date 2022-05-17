@@ -12,7 +12,7 @@ router.get("/", async (req, res) => {
   // score.syntactic = await getSyntacticScore();
   // score.semantic = getSemanticScore() * weights.semantic;
   // console.log(helper(score));
-
+  res.json(score);
   // res.json(score.syntactic);
 });
 const getSyntacticScore = async (entities) => {
@@ -32,7 +32,7 @@ const getSyntacticScore = async (entities) => {
   } limit 100`;
 
     const result = await helper.sparql(query);
-    const dsResult = await helper.getPoiDS();
+    const dsResult = await helper.rest(config.poiDSURL);
 
     finalScore += await calculateSyntacticScore(
       result.results.bindings,

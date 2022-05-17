@@ -10,6 +10,6 @@
   },
   "completeness": {
     "domain": 0.5,
-    "property": 0.5
+    "instance": 0.5
   }
 }

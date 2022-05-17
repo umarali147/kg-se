@@ -17,8 +17,8 @@ router.get("/", (req, res) => {
   score.availability = calculatedScore.availability * weights.availability;
   score.structured = calculatedScore.structured * weights.structured;
   score.contNego = calculatedScore.contNego * weights.contNego;
-
-  res.json(helper.score(score));
+  res.json(score);
+  // res.json(helper.score(score));
 });
 
 module.exports = router;

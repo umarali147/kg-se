@@ -1,9 +1,8 @@
 const axios = require("axios");
 const querystring = require("querystring");
-const baseUrl = "http://localhost:7200/repositories/wifipois";
-const poiDSURL =
-  "https://semantify.it/api/v2/domainSpecifications/dsv7/sloejGAwT?populate=true";
-let poiDS;
+const config = require("./config.json");
+const baseUrl = `${config.graphDBURL}/repositories/wifipois`;
+
 // calculate final score
 const score = (obj) => {
   let finalScore = 0;
@@ -34,8 +33,8 @@ const sparql = async (query) => {
   }
 };
 
-const getPoiDS = async () => {
-  poiDS = await axios.get(poiDSURL);
+const rest = async (url) => {
+  let poiDS = await axios.get(url);
   return poiDS.data;
 };
 
@@ -52,4 +51,4 @@ const getRandomEntities = (limit) => {
   return sparql(query);
 };
 
-module.exports = { score, sparql, getPoiDS, getRandomEntities };
+module.exports = { score, sparql, rest, getRandomEntities };
