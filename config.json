@@ -2,5 +2,6 @@
   "sampleQuantity": 1,
   "poiDSURL": "https://semantify.it/api/v2/domainSpecifications/dsv7/sloejGAwT?populate=true",
   "apiURL": "https://api.freifunk.net/data/ffSummarizedDir.json",
-  "graphDBURL": "http://localhost:7200"
+  "graphDBURL": "http://localhost:7200",
+  "geoapifyKey": "d8ff4784b573485c9b54ead86464c115"
 }
