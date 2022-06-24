@@ -52,7 +52,8 @@ router.post("/", async (req, res) => {
       lastChange,
     });
   }
-  // console.log({ annotations });
+  console.log({ annotations });
+  // validate_pois();  May want to validate here?
   await save(endpointUrl, annotations);
   res.json(annotations);
 });

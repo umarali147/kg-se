@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/umarali147/kg-se#readme",
   "dependencies": {
+    "ajv": "^8.11.0",
     "axios": "^0.27.2",
     "express": "^4.18.1",
     "querystring": "^0.2.1",
