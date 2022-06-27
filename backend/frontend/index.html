@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel=stylesheet href=https://cdn.jsdelivr.net/npm/pretty-print-json@1.2/dist/pretty-print-json.css>
+
+    <script src=https://cdn.jsdelivr.net/npm/pretty-print-json@1.2/dist/pretty-print-json.min.js></script>
+    <script>
+        $(document).ready(function () {
+            const assessment = {}
+            let access = 'http://localhost:3000/accessibility'
+
+            let completeness = 'http://localhost:3000/completeness'
+
+            let correctness = 'http://localhost:3000/correctness'
+
+
+            const promise1 = new Promise((resolve, reject) => {
+                $.get(access, function (data) {
+                    assessment.accessibility = data
+                    resolve(assessment.accessibility)
+                })
+            });
+
+            const promise2 =
+                new Promise((resolve, reject) => {
+                    $.get(completeness, function (data) {
+                        assessment.completeness = data
+                        resolve(assessment.completeness)
+                    })
+                });
+
+            const promise3 = new Promise((resolve, reject) => {
+                $.get(correctness, function (data) {
+                    assessment.correctness = data
+                    resolve(assessment.correctness)
+
+                })
+            });
+
+            Promise.all([promise1, promise2, promise3]).then((values) => {
+                $('#result_container').html(prettyPrintJson.toHtml(assessment))
+
+
+            });
+
+        })
+
+
+    </script>
+</head>
+
+<body>
+
+    <pre id="result_container"></pre>
+
+</body>
+
+</html>

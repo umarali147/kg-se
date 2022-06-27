@@ -1,0 +1,15 @@
+{
+  "accessibility": {
+    "availability": 0.3,
+    "structured": 0.4,
+    "contNego": 0.3
+  },
+  "correctness": {
+    "syntactic": 0.5,
+    "semantic": 0.5
+  },
+  "completeness": {
+    "instance": 0.5,
+    "domain": 0.5
+  }
+}
