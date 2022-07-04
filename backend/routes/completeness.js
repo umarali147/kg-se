@@ -12,9 +12,8 @@ router.get("/", async (req, res) => {
 const getCompleteness = async () => {
   const sampleQuery = helper.getRandomEntitiesQuery(config.sampleQuantity);
   const entities = await helper.sparql(sampleQuery, wifiUrl);
-  score.instance =
-    (await getInstanceCompScore(entities)) * weights.completeness.instance;
-  score.domain = (await getDomainCompScore()) * weights.completeness.domain;
+  score.instance = (await getInstanceCompScore(entities)).toFixed(3);
+  score.domain = (await getDomainCompScore()).toFixed(3);
   return score;
   // return(helper.score(score));
 };

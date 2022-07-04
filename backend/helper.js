@@ -28,6 +28,7 @@ const sparql = async (query, url) => {
         },
       }
     );
+    // console.log(result.data);
     return result.data;
   } catch (err) {
     console.log("err");
@@ -50,16 +51,17 @@ const getRandomEntitiesQuery = (limit) => {
   limit ${limit}`;
   return query;
 };
-const getWifiEntities = (limit) => {
+const getWifiEntities = () => {
   const query = `PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
   PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
   PREFIX schema: <https://schema.org/>
+  PREFIX odta: <https://odta.io/voc/>
   SELECT ?entity ?type
   WHERE {
-    ?entity rdf:type schema:Place.
+    ?entity rdf:type odta:PointOfInterest.
   }
   `;
-  return sparql(query, wifiUrl);
+  return sparql(query, gtUrl);
 };
 const getGTEntities = (limit) => {
   const query = `PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>

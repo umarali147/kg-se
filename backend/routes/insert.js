@@ -4,7 +4,7 @@ const router = express.Router();
 const wifiData = require("../data.json");
 const request = require("request");
 
-const endpointUrl = "http://localhost:7200/repositories/wifipois/statements";
+const endpointUrl = "http://localhost:7200/repositories/gt/statements";
 const updateUrl = endpointUrl;
 
 const client = new SparqlClient({ endpointUrl, updateUrl });

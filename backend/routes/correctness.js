@@ -14,11 +14,9 @@ const getCorrectness = async () => {
   const sampleQuery = helper.getRandomEntitiesQuery(config.sampleQuantity);
 
   const entities = await helper.sparql(sampleQuery, wifiUrl);
-  score.syntactic =
-    (await getSyntacticScore(entities)) * weights.correctness.syntactic;
+  score.syntactic = (await getSyntacticScore(entities)).toFixed(3);
 
-  score.semantic =
-    (await getSemanticScore(entities)) * weights.correctness.semantic;
+  score.semantic = (await getSemanticScore(entities)).toFixed(3);
   return score;
 };
 const getSyntacticScore = async (entities) => {

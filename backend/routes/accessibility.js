@@ -13,15 +13,16 @@ const calculatedScore = {
   contNego: 1,
 };
 const score = JSON.parse(JSON.stringify(calculatedScore));
-router.get("/", (req, res) => {
+router.get("/", async (req, res) => {
+  // res.json(await helper.getWifiEntities());
   res.json(getAccessibility());
   // res.json(helper.score(score));
 });
 
 const getAccessibility = () => {
-  score.availability = calculatedScore.availability * weights.availability;
-  score.structured = calculatedScore.structured * weights.structured;
-  score.contNego = calculatedScore.contNego * weights.contNego;
+  score.availability = calculatedScore.availability;
+  score.structured = calculatedScore.structured;
+  score.contNego = calculatedScore.contNego;
   return score;
 };
 

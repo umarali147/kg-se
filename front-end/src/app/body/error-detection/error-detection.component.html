@@ -1,0 +1,15 @@
+<div class="container">
+  <mat-list role="list" fxLayout="row " fxLayoutGap="50" fxLayoutAlign="center center">
+    <h4 class="text-center" fxFlex="30">Id</h4>
+    <h4 fxFlexAlign="center" fxFlex="15">PropertyName</h4>
+    <h4 fxFlexAlign="center" fxFlex="25">Value</h4>
+    <h4 fxFlexAlign="center" fxFlex="20">Constraint</h4>
+  </mat-list>
+
+  <mat-list role="list" *ngFor="let list of errorList" fxLayout="row " fxLayoutGap="50" fxLayoutAlign="center">
+    <mat-list-item fxFlexAlign="center " fxFlex="30">{{list.id}}</mat-list-item>
+    <mat-list-item fxFlexAlign="center " fxFlex="15">{{list.property}}</mat-list-item>
+    <mat-list-item fxFlexAlign="center " fxFlex="25">{{list.value}}</mat-list-item>
+    <mat-list-item fxFlexAlign="center " fxFlex="20">{{list.constraint}}</mat-list-item>
+  </mat-list>
+</div>

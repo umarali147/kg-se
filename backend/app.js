@@ -19,6 +19,7 @@ const completeness = require("./routes/completeness");
 const dupDetection = require("./routes/dub-detection");
 const nearby = require("./routes/nearby");
 const insert = require("./routes/insert");
+const constraints = require("./routes/constraints");
 
 app.get("/assessment", (req, res) => {});
 
@@ -28,5 +29,5 @@ app.use("/completeness", completeness);
 // app.use("/duplicate", dupDetection);
 app.use("/nearby", nearby);
 app.use("/insert", insert);
-
+app.use("/error-detection", constraints);
 app.listen(3000);

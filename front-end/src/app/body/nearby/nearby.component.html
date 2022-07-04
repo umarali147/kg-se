@@ -1,0 +1,25 @@
+<div fxLayout="row wrap" fxLayoutAlign="center">
+  <h1> Near By</h1>
+</div>
+<mat-divider></mat-divider>
+<div fxLayout="row wrap" fxLayoutAlign="center" fxLayoutGap="50">
+  <div class="chart" fxFlex="30">
+    <canvas baseChart [data]="pieChartData" [type]="pieChartType">
+    </canvas>
+  </div>
+  <mat-divider [vertical]="true"></mat-divider>
+  <div class="table">
+    <mat-tab-group class="h-70">
+      <mat-tab *ngFor="let item of bigObject|keyvalue:keepOrder" label="{{item.key}}">
+        <mat-list>
+          <mat-list-item *ngFor="let val of item.value"> <span class="ml-20 bold truncate w-200"
+              title="{{val.wifiSpot.value}}">{{val.wifiName.value}}</span><span class="ml-20 truncate w-400"
+              title="{{val.entity.value}}">{{val.entity.value}}</span>
+          </mat-list-item>
+        </mat-list>
+
+
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

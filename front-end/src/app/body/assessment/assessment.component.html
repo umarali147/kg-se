@@ -1,0 +1,48 @@
+<div fxLayout="row wrap" fxLayoutAlign="center">
+  <h1>Assessement</h1>
+</div>
+<mat-divider></mat-divider>
+<div class="container" fxLayout="row wrap" fxLayoutAlign="center">
+  <div class="table" fxFlex="40">
+
+    <h3 class="text-center">{{('Assessement Score: '+finalScore.toFixed(2))}}</h3>
+    <form #intro="ngForm" (ngSubmit)="onSubmitIntro(intro)" fxLayout="column">
+      <div *ngFor="let item of assessmentObj|keyvalue:keepOrder" class="container" fxLayout="row wrap"
+        fxLayoutAlign="center">
+        <div fxFlex="100">
+          <h3>{{item.key}}</h3>
+        </div>
+        <div *ngFor="let val of (item.value)|keyvalue:keepOrder" class="{{val.key}}" fxLayout="row" fxLayoutGap="20"
+          fxFlex="100">
+          <div fxFlexAlign="center">
+            <mat-label fxFlex="50">{{val.key}}</mat-label>
+          </div>
+          <mat-form-field appearance="legacy" fxFlex="15">
+            <input name="{{val.key}}" matInput [(ngModel)]="val.value" disabled="">
+          </mat-form-field>
+
+          <mat-form-field appearance="legacy" fxFlex="15">
+            <input name="{{val.key}}w" matInput [ngModel]="getWeight(item.key,val.key)"
+              (keyup)="dataChanged(($event),item.key,val.key)">
+          </mat-form-field>
+          <div fxFlexAlign="center"><span>{{(getResult(val.value,getWeight(item.key,val.key))).toFixed(2)
+              }}</span></div>
+        </div>
+        <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="center center ">
+          <h4>{{('score: '+(results[[item.key]+'R']).toFixed(2))}}</h4>
+        </div>
+      </div>
+
+      <!-- <button mat-button color="primary">Submit</button> -->
+    </form>
+  </div>
+  <mat-divider [vertical]="true"></mat-divider>
+
+  <div fxFlex="40" fxLayoutAlign="center center" class="ml-50">
+
+    <canvas baseChart [data]="doughnutChartData" [type]="doughnutChartType">
+    </canvas>
+
+  </div>
+
+</div>
